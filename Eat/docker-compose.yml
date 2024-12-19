@@ -5,8 +5,18 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: streemi
+      MYSQL_DATABASE: eat
       MYSQL_PASSWORD: root
+  
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8080:80"
 
   rabbitmq:
     image: rabbitmq:3-management
