@@ -102,6 +102,3 @@ Access the application at: **http://127.0.0.1:8000**
 
 ---
 
-## **Contact Information**
-For support or questions, please reach out to the project maintainer at: **support@example.com**.
-
