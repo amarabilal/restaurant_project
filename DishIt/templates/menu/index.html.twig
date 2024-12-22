@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Menus{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Menus</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for menu in menus %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ menu.title }}</h5>
+                    <p class="card-text">{{ menu.description }}</p>
+                    <p class="card-text"><strong>Price:</strong> {{ menu.price }} €</p>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_GERANT') %}
+                        <a href="{{ path('app_menu_show', {'id': menu.id}) }}" class="btn btn-primary btn-sm">View</a>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_GERANT') and menu.restaurant.gerant == app.user) %}
+                        <a href="{{ path('app_menu_edit', {'id': menu.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form method="post" action="{{ path('app_menu_delete', {'id': menu.id}) }}" style="display:inline;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ menu.id) }}">
+                            <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_GERANT') %}
+    <a href="{{ path('app_menu_new') }}" class="btn btn-success mt-4">Add New Menu</a>
+{% endif %}
+<a href="{{ path('app_home') }}" class="btn btn-secondary mt-4">Back to Home</a>
+{% endblock %}

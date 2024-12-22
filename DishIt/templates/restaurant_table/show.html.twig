@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Restaurant Table Details{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Restaurant Table Details</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Table Number: {{ restaurant_table.number }}</h5>
+        <p class="card-text"><strong>Seats:</strong> {{ restaurant_table.seats }}</p>
+        <p class="card-text"><strong>Availability:</strong> {{ restaurant_table.isAvailable ? 'Available' : 'Occupied' }}</p>
+        <p class="card-text"><strong>Restaurant:</strong> {{ restaurant_table.restaurant.name }}</p>
+    </div>
+</div>
+
+<a href="{{ path('app_restaurant_table_index') }}" class="btn btn-secondary mt-4">Back to Tables</a>
+{% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_GERANT') and restaurant_table.restaurant.gerant == app.user) %}
+    <a href="{{ path('app_restaurant_table_edit', {'id': restaurant_table.id}) }}" class="btn btn-warning mt-4">Edit</a>
+    <form method="post" action="{{ path('app_restaurant_table_delete', {'id': restaurant_table.id}) }}" style="display:inline;">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ restaurant_table.id) }}">
+        <button class="btn btn-danger mt-4" onclick="return confirm('Are you sure?');">Delete</button>
+    </form>
+{% endif %}
+{% endblock %}

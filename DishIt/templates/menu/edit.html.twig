@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Menu{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Edit Menu</h1>
+
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.price) }}
+        {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.restaurant) }}
+        {{ form_widget(form.restaurant, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <button class="btn btn-primary">Update</button>
+{{ form_end(form) }}
+
+<a href="{{ path('app_menu_index') }}" class="btn btn-secondary mt-4">Back to Menus</a>
+{% endblock %}

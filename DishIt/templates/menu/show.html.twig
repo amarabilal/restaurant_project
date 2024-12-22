@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Menu Details{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Menu Details</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ menu.title }}</h5>
+        <p class="card-text">{{ menu.description }}</p>
+        <p class="card-text"><strong>Price:</strong> {{ menu.price }} €</p>
+        <p class="card-text"><strong>Restaurant:</strong> {{ menu.restaurant.name }}</p>
+    </div>
+</div>
+
+<a href="{{ path('app_menu_index') }}" class="btn btn-secondary mt-4">Back to Menus</a>
+{% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_GERANT') and menu.restaurant.gerant == app.user) %}
+    <a href="{{ path('app_menu_edit', {'id': menu.id}) }}" class="btn btn-warning mt-4">Edit</a>
+    <form method="post" action="{{ path('app_menu_delete', {'id': menu.id}) }}" style="display:inline;">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ menu.id) }}">
+        <button class="btn btn-danger mt-4" onclick="return confirm('Are you sure?');">Delete</button>
+    </form>
+{% endif %}
+{% endblock %}

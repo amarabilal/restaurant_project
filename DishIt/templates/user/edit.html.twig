@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+<h1>Edit User</h1>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary mt-3">Update</button>
+{{ form_end(form) }}
+<a href="{{ path('app_user_index') }}" class="btn btn-secondary mt-3">Back to list</a>
+{% endblock %}

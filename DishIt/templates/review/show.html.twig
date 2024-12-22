@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Review Details{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Review Details</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Rating: {{ review.rating }}/5</h5>
+        <p class="card-text">{{ review.comment }}</p>
+        <p class="card-text"><strong>Date:</strong> {{ review.createdAt|date('Y-m-d H:i') }}</p>
+        <p class="card-text"><strong>Restaurant:</strong> {{ review.restaurant.name }}</p>
+    </div>
+</div>
+
+<a href="{{ path('app_review_index') }}" class="btn btn-secondary mt-4">Back to Reviews</a>
+{% if is_granted('ROLE_ADMIN') or review.user == app.user %}
+    <a href="{{ path('app_review_edit', {'id': review.id}) }}" class="btn btn-warning mt-4">Edit</a>
+    <form method="post" action="{{ path('app_review_delete', {'id': review.id}) }}" style="display:inline;">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ review.id) }}">
+        <button class="btn btn-danger mt-4" onclick="return confirm('Are you sure?');">Delete</button>
+    </form>
+{% endif %}
+{% endblock %}

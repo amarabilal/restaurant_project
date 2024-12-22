@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home - DishIt{% endblock %}
+
+{% block body %}
+<h1 class="text-center mb-4">Welcome to DishIt</h1>
+<p class="text-center mb-4">Manage your restaurants, reservations, reviews, and more with ease.</p>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Users</h5>
+                    <p class="card-text">Manage all users and their access rights.</p>
+                    <a href="{{ path('app_user_index') }}" class="btn btn-warning">Manage Users</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Categories</h5>
+                    <p class="card-text">Manage all categories.</p>
+                    <a href="{{ path('app_category_index') }}" class="btn btn-warning">Manage Categories</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_GERANT') or is_granted('ROLE_ADMIN') %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Restaurants</h5>
+                    <p class="card-text">View and manage your restaurants.</p>
+                    <a href="{{ path('app_restaurant_index') }}" class="btn btn-primary">View Restaurants</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Menus</h5>
+                    <p class="card-text">Add or edit menus for your restaurants.</p>
+                    <a href="{{ path('app_menu_index') }}" class="btn btn-secondary">Manage Menus</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Tables</h5>
+                    <p class="card-text">Configure tables for reservations.</p>
+                    <a href="{{ path('app_restaurant_table_index') }}" class="btn btn-success">Manage Tables</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_USER') %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Reservations</h5>
+                    <p class="card-text">Make and manage your reservations.</p>
+                    <a href="{{ path('app_reservation_index') }}" class="btn btn-info">View Reservations</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Reviews</h5>
+                    <p class="card-text">Leave reviews and feedback.</p>
+                    <a href="{{ path('app_review_index') }}" class="btn btn-danger">Write Reviews</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

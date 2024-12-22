@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Restaurant Table{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Edit Restaurant Table</h1>
+
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.number) }}
+        {{ form_widget(form.number, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.seats) }}
+        {{ form_widget(form.seats, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.isAvailable) }}
+        {{ form_widget(form.isAvailable, {'attr': {'class': 'form-check-input'}}) }}
+        <label class="form-check-label">Available</label>
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.restaurant) }}
+        {{ form_widget(form.restaurant, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <button class="btn btn-primary">Update</button>
+{{ form_end(form) }}
+
+<a href="{{ path('app_restaurant_table_index') }}" class="btn btn-secondary mt-4">Back to Tables</a>
+{% endblock %}

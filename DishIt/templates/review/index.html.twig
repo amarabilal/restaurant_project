@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reviews{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Reviews</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for review in reviews %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Rating: {{ review.rating }}/5</h5>
+                    <p class="card-text">{{ review.comment }}</p>
+                    <p class="card-text"><strong>Date:</strong> {{ review.createdAt|date('Y-m-d H:i') }}</p>
+                    <p class="card-text"><strong>Restaurant:</strong> {{ review.restaurant.name }}</p>
+                    {% if is_granted('ROLE_ADMIN') or review.user == app.user %}
+                        <a href="{{ path('app_review_show', {'id': review.id}) }}" class="btn btn-primary btn-sm">View</a>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') or review.user == app.user %}
+                        <a href="{{ path('app_review_edit', {'id': review.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form method="post" action="{{ path('app_review_delete', {'id': review.id}) }}" style="display:inline;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ review.id) }}">
+                            <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% if is_granted('ROLE_USER') %}
+    <a href="{{ path('app_review_new') }}" class="btn btn-success mt-4">Add New Review</a>
+{% endif %}
+<a href="{{ path('app_home') }}" class="btn btn-secondary mt-4">Back to Home</a>
+{% endblock %}

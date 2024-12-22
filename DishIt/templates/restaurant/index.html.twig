@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Restaurants{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Restaurants</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for restaurant in restaurants %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ restaurant.name }}</h5>
+                    <p class="card-text"><strong>Address:</strong> {{ restaurant.address }}</p>
+                    <p class="card-text"><strong>Phone:</strong> {{ restaurant.phone }}</p>
+                    <p class="card-text"><strong>Capacity:</strong> {{ restaurant.capacity }} guests</p>
+                    {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_GERANT') and restaurant.gerant == app.user) %}
+                        <a href="{{ path('app_restaurant_show', {'id': restaurant.id}) }}" class="btn btn-primary btn-sm">View</a>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_GERANT') and restaurant.gerant == app.user) %}
+                        <a href="{{ path('app_restaurant_edit', {'id': restaurant.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form method="post" action="{{ path('app_restaurant_delete', {'id': restaurant.id}) }}" style="display:inline;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ restaurant.id) }}">
+                            <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% if is_granted('ROLE_GERANT') or is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('app_restaurant_new') }}" class="btn btn-success mt-4">Add New Restaurant</a>
+{% endif %}
+<a href="{{ path('app_home') }}" class="btn btn-secondary mt-4">Back to Home</a>
+{% endblock %}

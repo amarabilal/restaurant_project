@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservation Details{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Reservation Details</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Reservation for {{ reservation.guests }} guests</h5>
+        <p class="card-text"><strong>Date:</strong> {{ reservation.date|date('Y-m-d H:i') }}</p>
+        <p class="card-text"><strong>Restaurant:</strong> {{ reservation.restaurant.name }}</p>
+        <p class="card-text"><strong>Table:</strong> {{ reservation.table.number }}</p>
+    </div>
+</div>
+
+<a href="{{ path('app_reservation_index') }}" class="btn btn-secondary mt-4">Back to Reservations</a>
+{% if is_granted('ROLE_ADMIN') or reservation.user == app.user %}
+    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-warning mt-4">Edit</a>
+    <form method="post" action="{{ path('app_reservation_delete', {'id': reservation.id}) }}" style="display:inline;">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reservation.id) }}">
+        <button class="btn btn-danger mt-4" onclick="return confirm('Are you sure?');">Delete</button>
+    </form>
+{% endif %}
+{% endblock %}

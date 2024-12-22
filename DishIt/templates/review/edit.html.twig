@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Review{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">Edit Review</h1>
+
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.rating) }}
+        {{ form_widget(form.rating, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.comment) }}
+        {{ form_widget(form.comment, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.restaurant) }}
+        {{ form_widget(form.restaurant, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <button class="btn btn-primary">Update</button>
+{{ form_end(form) }}
+
+<a href="{{ path('app_review_index') }}" class="btn btn-secondary mt-4">Back to Reviews</a>
+{% endblock %}

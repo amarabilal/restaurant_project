@@ -1,0 +1,40 @@
+services:
+  # Service pour la base de données MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: dishIt_db
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dishIt
+      MYSQL_USER: app
+      MYSQL_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # Service phpMyAdmin pour gérer la base de données
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+
+  # Service Mailpit pour tester les emails
+  mailer:
+    image: axllent/mailpit
+    container_name: mailpit
+    ports:
+      - "1025:1025"  # Port SMTP pour Symfony Mailer
+      - "8025:8025"  # Interface web pour visualiser les e-mails
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+volumes:
+  mysql_data:
