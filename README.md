@@ -48,7 +48,7 @@ This project is a **Restaurant Management System** built with **Symfony**. It al
 - PHP 8.1 or later
 - Composer
 - Symfony CLI
-- MySQL Database
+- Docker and Docker-Compose
 
 ### **2. Installation**
 ```bash
@@ -63,7 +63,10 @@ composer install
 cp .env .env.local
 
 # Update database settings in .env.local
-DATABASE_URL="mysql://user:password@127.0.0.1:3306/restaurant"
+DATABASE_URL="mysql://app:root@127.0.0.1:3306/dishIt"
+
+# Start Docker containers for database
+docker-compose up -d
 
 # Create the database
 php bin/console doctrine:database:create
@@ -101,4 +104,3 @@ Access the application at: **http://127.0.0.1:8000**
 9. **Multi-Language Support:** Implement translations for multilingual users.
 
 ---
-
